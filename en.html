@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ancient Wisdom AI - Enlightenment from Chinese Classics</title>
+    <style>
+        /* 全局样式 - 深色极简风（与中文版一致，仅字体调整） */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Noto Sans", Arial, sans-serif;
+        }
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .navbar {
+            background-color: #1e1e1e;
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .member-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .books-section {
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .book-card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+        .book-card.free {
+            border-left: 4px solid #4CAF50;
+        }
+        .book-card.locked {
+            opacity: 0.7;
+            border-left: 4px solid #757575;
+        }
+        .book-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .book-tag {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .tag-free {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .tag-locked {
+            background-color: #757575;
+            color: white;
+        }
+        .reading-section {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: none;
+        }
+        .book-header {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        .current-book-title {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .content-area {
+            margin-bottom: 30px;
+            min-height: 200px;
+        }
+        .ai-section {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        .prompt-input {
+            width: 100%;
+            background-color: #2d2d2d;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 15px;
+            color: #e0e0e0;
+            font-size: 16px;
+            margin-bottom: 15px;
+            resize: none;
+            min-height: 100px;
+        }
+        .usage-info {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 15px;
+        }
+        .ai-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .ai-result {
+            background-color: #2d2d2d;
+            border-radius: 4px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 150px;
+        }
+        .like-btn {
+            background-color: #2d2d2d;
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .notes-section {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 30px;
+        }
+        .notes-input {
+            width: 100%;
+            background-color: #2d2d2d;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 15px;
+            color: #e0e0e0;
+            font-size: 16px;
+            margin-bottom: 15px;
+            resize: none;
+            min-height: 200px;
+        }
+        .voice-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .voice-info {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        @media (max-width: 768px) {
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+            .navbar-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .reading-section, .ai-section, .notes-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-content">
+            <div class="logo">Ancient Wisdom AI</div>
+            <button class="member-btn" id="memberBtn">Get Premium | $49.99/Year</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="books-section" id="booksSection">
+            <h2 class="section-title">Chinese Classics</h2>
+            <div class="books-grid">
+                <div class="book-card free" data-book="tao">
+                    <div class="book-title">Tao Te Ching</div>
+                    <div class="book-desc">The Way of Nature and Non-Action</div>
+                    <div class="book-tag tag-free">Free to Read</div>
+                </div>
+                <div class="book-card free" data-book="analects">
+                    <div class="book-title">Analects of Confucius</div>
+                    <div class="book-desc">Virtue, Wisdom and Harmony</div>
+                    <div class="book-tag tag-free">Free to Read</div>
+                </div>
+                <div class="book-card free" data-book="war">
+                    <div class="book-title">The Art of War</div>
+                    <div class="book-desc">Strategy and Victory</div>
+                    <div class="book-tag tag-free">Free to Read</div>
+                </div>
+                <div class="book-card locked" data-book="iching">
+                    <div class="book-title">I Ching</div>
+                    <div class="book-desc">Change and Balance</div>
+                    <div class="book-tag tag-locked">Premium Only</div>
+                </div>
+                <div class="book-card locked" data-book="zhuangzi">
+                    <div class="book-title">Zhuangzi</div>
+                    <div class="book-desc">Freedom and Enlightenment</div>
+                    <div class="book-tag tag-locked">Premium Only</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="reading-section" id="readingSection">
+            <div class="book-header">
+                <h2 class="current-book-title" id="currentBookTitle">Tao Te Ching</h2>
+                <div class="book-chapter" id="currentChapter">Chapter 1: The Tao that can be told is not the eternal Tao...</div>
+            </div>
+            <div class="content-area" id="bookContent">
+                The Tao that can be told is not the eternal Tao; The name that can be named is not the eternal name. The nameless is the beginning of heaven and earth; The named is the mother of all things. Therefore, let there always be non-being, so we may see their subtlety, And let there always be being, so we may see their outcome. The two are the same, But after they are produced, they have different names. They both may be called deep and profound. Deeper and more profound, The door of all subtleties!
+            </div>
+        </div>
+
+        <div class="ai-section">
+            <h2 class="section-title">AI Enlightenment</h2>
+            <textarea class="prompt-input" id="promptInput" placeholder="Share your daily confusion or life thoughts, let classics guide you..."></textarea>
+            <div class="usage-info" id="usageInfo">Remaining enlightenment times today: 5/5 (1 time restored daily)</div>
+            <button class="ai-btn" id="aiBtn">Get Enlightenment</button>
+            <div class="ai-result" id="aiResult">
+                Please enter your confusion and click "Get Enlightenment" to receive guidance from ancient wisdom...
+            </div>
+            <button class="like-btn" id="likeBtn">👍 Found Helpful</button>
+        </div>
+
+        <div class="notes-section">
+            <h2 class="section-title">Chapter Insights</h2>
+            <div class="voice-info">Premium Only: Hold to speak (max 60s), AI auto-organizes your thoughts</div>
+            <button class="voice-btn" id="voiceBtn" disabled>🎙️ AI Voice Input (Premium)</button>
+            <textarea class="notes-input" id="notesInput" placeholder="Write down your insights, reflections and inspirations... (No word limit)"></textarea>
+        </div>
+    </div>
+
+    <script>
+        const AI_TEMPLATES = [
+            "Analyze this from the wisdom of {book}: {prompt}. Provide in-depth analysis of the core of the confusion based on classic texts and traditional perspectives.",
+            "As a gentle ancient wisdom mentor, respond to {prompt} with the teachings of {book}. Offer emotional support and comfort with warm, healing language.",
+            "Based on the core principles of {book}, provide 1-3 actionable suggestions for the confusion: {prompt}. Explain each suggestion with references to classic texts.",
+            "Use a short Chinese fable/story inspired by {book} to enlighten on {prompt}. The story should be concise and insightful.",
+            "Reflect on the confusion {prompt} from a 5-year future perspective, guided by the wisdom of {book}. Offer long-term perspective and advice."
+        ];
+        
+        let currentBook = "tao";
+        let remainingTimes = 5;
+        let isMember = false;
+        let templateLikeCount = [0,0,0,0,0];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookCards = document.querySelectorAll('.book-card');
+            bookCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    if (this.classList.contains('locked') && !isMember) {
+                        alert('This book is for premium members only. Please upgrade to read.');
+                        return;
+                    }
+                    currentBook = this.dataset.book;
+                    document.getElementById('readingSection').style.display = 'block';
+                    updateBookContent();
+                });
+            });
+
+            document.getElementById('aiBtn').addEventListener('click', function() {
+                const prompt = document.getElementById('promptInput').value.trim();
+                if (!prompt) {
+                    alert('Please enter your thoughts or confusion');
+                    return;
+                }
+                if (remainingTimes <= 0) {
+                    alert('You have used all enlightenment times for today. It will restore tomorrow.');
+                    return;
+                }
+
+                remainingTimes--;
+                updateUsageInfo();
+
+                const templateIndex = getWeightedTemplateIndex();
+                const bookName = getBookName(currentBook);
+                const finalPrompt = AI_TEMPLATES[templateIndex].replace('{book}', bookName).replace('{prompt}', prompt);
+
+                document.getElementById('aiResult').textContent = "Enlightening you, please wait...";
+                setTimeout(() => {
+                    const aiResponse = getMockAIResponse(prompt, currentBook, templateIndex);
+                    document.getElementById('aiResult').textContent = aiResponse;
+                }, 1000);
+            });
+
+            document.getElementById('likeBtn').addEventListener('click', function() {
+                const lastTemplateIndex = localStorage.getItem('lastTemplateIndex') || 0;
+                templateLikeCount[lastTemplateIndex]++;
+                alert('Thank you for your feedback! We will refine our content to better meet your needs.');
+                this.disabled = true;
+            });
+
+            document.getElementById('memberBtn').addEventListener('click', function() {
+                if (isMember) {
+                    alert('You are already a premium member with full access to all features.');
+                    return;
+                }
+                if (confirm('Upgrade to premium to unlock all books, unlimited AI enlightenment, and AI voice notes for $49.99/year. Continue?')) {
+                    isMember = true;
+                    document.getElementById('voiceBtn').disabled = false;
+                    document.querySelectorAll('.book-card.locked').forEach(card => {
+                        card.classList.remove('locked');
+                        card.querySelector('.book-tag').className = 'book-tag tag-free';
+                        card.querySelector('.book-tag').textContent = 'Unlocked';
+                    });
+                    alert('Premium membership activated successfully!');
+                    document.getElementById('memberBtn').textContent = 'My Premium | Active';
+                    remainingTimes = 999;
+                    updateUsageInfo();
+                }
+            });
+
+            document.getElementById('voiceBtn').addEventListener('click', function() {
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    alert('Your browser does not support speech recognition. Please use Chrome.');
+                    return;
+                }
+
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.maxAlternatives = 1;
+                recognition.continuous = false;
+
+                const timeout = setTimeout(() => {
+                    recognition.stop();
+                    alert('Voice input reached 60s limit. Organizing your content...');
+                }, 60000);
+
+                recognition.start();
+                alert('Start speaking (max 60s). It will stop automatically when you finish.');
+
+                recognition.onresult = function(event) {
+                    clearTimeout(timeout);
+                    const voiceText = event.results[0][0].transcript;
+                    const notesInput = document.getElementById('notesInput');
+                    const cursorPos = notesInput.selectionStart;
+                    const currentText = notesInput.value;
+                    const cleanedText = cleanVoiceText(voiceText);
+                    const newText = currentText.substring(0, cursorPos) + cleanedText + currentText.substring(cursorPos);
+                    notesInput.value = newText;
+                    alert('Voice content organized and inserted into your notes.');
+                };
+
+                recognition.onerror = function(event) {
+                    clearTimeout(timeout);
+                    alert('Speech recognition failed: ' + event.error);
+                };
+            });
+        });
+
+        function updateBookContent() {
+            const bookTitles = {
+                tao: 'Tao Te Ching',
+                analects: 'Analects of Confucius',
+                war: 'The Art of War',
+                iching: 'I Ching',
+                zhuangzi: 'Zhuangzi'
+            };
+            const bookContents = {
+                tao: 'The Tao that can be told is not the eternal Tao; The name that can be named is not the eternal name. The nameless is the beginning of heaven and earth; The named is the mother of all things. Therefore, let there always be non-being, so we may see their subtlety, And let there always be being, so we may see their outcome. The two are the same, But after they are produced, they have different names. They both may be called deep and profound. Deeper and more profound, The door of all subtleties!',
+                analects: 'Confucius said: "Is it not pleasant to learn with a constant perseverance and application? Is it not delightful to have friends coming from distant quarters? Is he not a man of complete virtue, who feels no discomposure though men may take no note of him?"',
+                war: 'War is a matter of vital importance to the state; a matter of life and death, the road either to safety or to ruin. Hence it is a subject of inquiry which can on no account be neglected. The art of war, then, is governed by five constant factors, to be taken into account in one\'s deliberations, when seeking to determine the conditions obtaining in the field.'
+            };
+            document.getElementById('currentBookTitle').textContent = bookTitles[currentBook];
+            document.getElementById('bookContent').textContent = bookContents[currentBook] || 'This book is unlocked for premium members with full content access.';
+        }
+
+        function updateUsageInfo() {
+            const usageText = isMember ? 'Premium Benefit: Unlimited Enlightenment' : `Remaining enlightenment times today: ${remainingTimes}/5 (1 time restored daily)`;
+            document.getElementById('usageInfo').textContent = usageText;
+        }
+
+        function getWeightedTemplateIndex() {
+            const weights = templateLikeCount.map(count => count + 1);
+            const totalWeight = weights.reduce((a, b) => a + b, 0);
+            const random = Math.random() * totalWeight;
+            let sum = 0;
+            for (let i = 0; i < weights.length; i++) {
+                sum += weights[i];
+                if (random < sum) {
+                    localStorage.setItem('lastTemplateIndex', i);
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        function getBookName(bookKey) {
+            const bookNames = {
+                tao: 'Tao Te Ching',
+                analects: 'Analects of Confucius',
+                war: 'The Art of War',
+                iching: 'I Ching',
+                zhuangzi: 'Zhuangzi'
+            };
+            return bookNames[bookKey] || 'Tao Te Ching';
+        }
+
+        function getMockAIResponse(prompt, book, templateIndex) {
+            const responses = [
+                `Analyzing your confusion "${prompt}" from the perspective of ${getBookName(book)}:\n\nAll things in the universe follow their natural way. Confusion arises from attachment and resistance to what is. As the classic teaches: "The Tao follows its own nature", align with the natural flow rather than opposing it, and clarity will come.`,
+                `Dear friend, regarding your confusion "${prompt}", the wisdom of ${getBookName(book)} offers this guidance:\n\nThere is no need for anxiety or forcing outcomes. Every person has their own rhythm in life. Sometimes slow progress is true progress, and stillness can be more powerful than action. Accepting yourself in this moment is the greatest wisdom. You are doing well.`,
+                `Based on the wisdom of ${getBookName(book)}, here are actionable suggestions for your confusion "${prompt}":\n\n1. Take 10 minutes each day for quiet reflection to clarify your true needs;\n2. Start with small actions, focus on progress rather than perfection;\n3. Regularly review and adjust your approach without giving up easily.\n\nAction is the best answer to confusion.`,
+                `This ancient fable may illuminate your confusion "${prompt}":\n\nA farmer once complained about his poor soil, feeling constant anxiety. An elder advised: "Tend to your fields without worrying about harvest, and answers will come." The farmer followed this advice, and six months later, his harvest exceeded all previous years. ${getBookName(book)} teaches us: focus on the present, trust the process, and clarity emerges naturally.`,
+                `Looking back at your current confusion "${prompt}" from a 5-year perspective:\n\nYou will see that today's struggles are but small waves in the river of life. The problems that once kept you awake at night will find resolution with time and perspective. As ${getBookName(book)} states: "A journey of a thousand miles begins with a single step" - progress step by step, and you will reach your destination.`
+            ];
+            return responses[templateIndex];
+        }
+
+        function cleanVoiceText(text) {
+            const oralWords = ['um', 'uh', 'like', 'you know', 'actually', 'basically', 'so', 'well'];
+            let cleaned = text;
+            oralWords.forEach(word => {
+                cleaned = cleaned.replace(new RegExp(word, 'gi'), '');
+            });
+            const sentences = cleaned.split('. ');
+            const uniqueSentences = [...new Set(sentences)];
+            cleaned = uniqueSentences.join('. ').trim();
+            if (cleaned.length > 300) {
+                cleaned = cleaned.substring(0, 297) + '...';
+            }
+            return cleaned;
+        }
+    </script>
+</body>
+</html>
